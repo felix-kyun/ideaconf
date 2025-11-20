@@ -62,7 +62,7 @@ acpic() {
     printf "\n"
 }
 
-enable() {
+cmd() {
     echo "$1" > /proc/acpi/call && echo "ok" || echo "failed"
 }
 
@@ -78,9 +78,9 @@ case $FEATURE in
             esac
         else
             case $MODE in
-                performance) enable "$MODE_PERFORMANCE";;
-                automatic) enable "$MODE_AUTOMATIC";;
-                battery) enable "$MODE_BATTERY";;
+                performance) cmd "$MODE_PERFORMANCE";;
+                automatic) cmd "$MODE_AUTOMATIC";;
+                battery) cmd "$MODE_BATTERY";;
                 *) echo "Unknown mode: $MODE" ;;
             esac
         fi
@@ -95,7 +95,10 @@ case $FEATURE in
             esac
         else
             case $MODE in
-                enable) enable "$BATTERY_CONSERVATION_ENABLE";;
+                enable) 
+                    cmd "$RAPID_CHARGE_DISABLE"
+                    cmd "$BATTERY_CONSERVATION_ENABLE"
+                    ;;
                 disable) enable "$BATTERY_CONSERVATION_DISABLE";;
                 *) echo "Unknown mode: $MODE" ;;
             esac
@@ -111,8 +114,11 @@ case $FEATURE in
             esac
         else
             case $MODE in
-                enable) enable "$RAPID_CHARGE_ENABLE";;
-                disable) enable "$RAPID_CHARGE_DISABLE";;
+                cmd) 
+                    cmd "$BATTERY_CONSERVATION_DISABLE"
+                    cmd "$RAPID_CHARGE_ENABLE"
+                    ;;
+                disable) cmd "$RAPID_CHARGE_DISABLE";;
                 *) echo "Unknown mode: $MODE" ;;
             esac
         fi
