@@ -9,6 +9,15 @@ if (( uid != 0 )); then
     exec sudo "$0" "$@"
 fi
 
-echo "Installing ideapad-cli..."
-install -Dm755 ideapad-cli /usr/local/bin/ideapad-cli
-echo "ok"
+if [ -n "$BASH_VERSION" ]; then
+    # ensure bash_completions is installed to support completion installation
+    echo "Installing ideapad-cli completion for bash..."
+    install -Dm644 _ideapad-cli /usr/share/bash-completion/completions/ideapad-cli
+    echo "ok"
+elif [ -n "$ZSH_VERSION" ]; then
+    echo "Installing ideapad-cli completion for zsh..."
+    install -Dm644 _ideapad-cli /usr/share/zsh/site-functions/_ideapad-cli
+    echo "ok"
+else
+    echo "Shell not detected or not supported for completion installation."
+fi
