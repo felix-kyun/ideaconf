@@ -11,6 +11,10 @@ fi
 
 if [ -n "$BASH_VERSION" ]; then
     # ensure bash_completions is installed to support completion installation
+    if [ ! -f /usr/share/bash-completion/bash_completion ]; then
+        echo "bash-completion package is not installed. Please install it first."
+        exit 1
+    fi
     echo "Installing ideapad-cli completion for bash..."
     install -Dm644 _ideapad-cli /usr/share/bash-completion/completions/ideapad-cli
     echo "ok"
