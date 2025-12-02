@@ -9,18 +9,18 @@ _ideaconf()
     COMPREPLY=()
 
     case "${prev}" in
-        ideapad-cli)
-            COMPREPLY=( $(compgen -W "${commands}" -- "${cur}") )
+        ideaconf)
+            readarray -t COMPREPLY < <(compgen -W "${commands}" -- "${cur}")
             return 0
             ;;
         fan)
             local fan_options="performance automatic battery"
-            COMPREPLY=( $(compgen -W "${fan_options}" -- "${cur}") )
+            readarray -t COMPREPLY < <(compgen -W "${fan_options}" -- "${cur}")
             return 0
             ;;
         battery-conservation|rapid-charge)
             local battery_options="enable disable"
-            COMPREPLY=( $(compgen -W "${battery_options}" -- "${cur}") )
+            readarray -t COMPREPLY < <(compgen -W "${battery_options}" -- "${cur}")
             return 0
             ;;
     esac
